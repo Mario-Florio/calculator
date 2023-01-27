@@ -1,26 +1,47 @@
-//Basic math operators
+//Global variables to keep track of runniong values
+let num1 = 0
+let num2 = 0
+let product
+let operator
 
+//Basic math operators
 function add(num1, num2) {
-    return num1 + num2
+    product = parseFloat(num1) + parseFloat(num2)
+    if (product.toString().length > 7 === true) {
+        console.log('Product to big for screen\nProduct = ' + product)
+        product = 'ERROR'
+    }
 }
 
 function subtract(num1, num2) {
-    return num1 - num2
+    product = num1 - num2
+    if (product.toString().length > 7 === true) {
+        console.log('Product to big for screen\nProduct = ' + product)
+        product = 'ERROR'
+    }
 }
 
 function multiply(num1, num2) {
-    return num1 * num2
+    product = num1 * num2
+    if (product.toString().length > 7 === true) {
+        console.log('Product to big for screen\nProduct = ' + product)
+        product = 'ERROR'
+    }
 }
 
 function divide(num1, num2)  {
-    if (num2 != 0) 
-        return num1 / num2
-    else
-        return "Division by 0"
+        product = num1 / num2
+    if (num2 === 0) {
+        product = "ERROR"
+    } else if (product.toString().length > 7 === true) {
+        console.log('Product to big for screen\nProduct = ' + product)
+        product = 'ERROR'
+    }
 }
 
 //Calls the proper function based on the operator used
 function operate(operator, num1, num2) {
+    parseFloat(num1, num2)
     if (operator == '+') {
         return add(num1,num2)
     }
@@ -34,80 +55,179 @@ function operate(operator, num1, num2) {
         return divide(num1, num2)
     }
 }
+//
 
-//Display buttons input on UI
 let display = document.querySelector('#display')
 
-let one = document.querySelector('#one')
+//Numbers display on screen when clicked and effect the value of num1 & num2 depending on context
+let numbers = document.querySelectorAll('.numbers')
 
-one.onclick = () => display.textContent += 1
+for (let i = 0; i < numbers.length; i++) {
+    numbers[i].addEventListener('click', () => {
+        if (operator == undefined && num1.toString().length < 6) {
+            num1 += numbers[i].textContent
+            display.textContent = num1.slice(1)
+            console.log('num1: ' + num1)
+        }
+        if (typeof operator == 'string' && num2.toString().length < 6) {
+            num2 += numbers[i].textContent
+            display.textContent = num2.slice(1)
+            console.log('num2: ' + num2)
+        }
+    })
+}
 
-let two = document.querySelector('#two').onclick = () => display.textContent += 2
-
-let three = document.querySelector('#three')
-
-three.onclick = () => display.textContent += 3
-
-let four = document.querySelector('#four')
-
-four.onclick = () => display.textContent += 4
-
-let five = document.querySelector('#five')
-
-five.onclick = () => display.textContent += 5
-
-let six = document.querySelector('#six')
-
-six.onclick = () => display.textContent += 6
-
-let seven = document.querySelector('#seven')
-
-seven.onclick = () => display.textContent += 7
-
-let eight = document.querySelector('#eight')
-
-eight.onclick = () => display.textContent += 8
-
-let nine = document.querySelector('#nine')
-
-nine.onclick = () => display.textContent += 9
-
+//Zero behaves similarly to other numbers, but only displays once if called first
 let zero = document.querySelector('#zero')
 
-zero.onclick = () => display.textContent += 0
+zero.addEventListener('click', (e) => {
+    if (operator === undefined && num1 == 0) {
+        display.textContent = 0
+    }
+    
+    if (operator === undefined && num1.toString().length < 6) {
+        num1 += 0
+        display.textContent = num1
+        if (num1 == '0') {
+            display.textContent = num1
+            } else {
+                display.textContent = num1.slice(1)
+            }
+    } 
+    
+    if (typeof operator == 'string' && num2 == 0) {
+        display.textContent = 0
+    } 
 
+    if (typeof operator == 'string' && num2.toString().length < 6) {
+        num2 += 0
+        if (num2 == '0') {
+            display.textContent = num2
+            } else {
+                display.textContent = num2.slice(1)
+            }
+    }
+})
+
+//Clear button clears screen and running values
 let clear = document.querySelector('#clear')
 
-clear.onclick = () => display.textContent = ''
+clear.addEventListener('click', () => {
+    display.textContent = ''
+    num1 = 0
+    num2 = 0
+    operator = undefined
+    product = 0
+})
 
-//Starts claculation
-let plus = document.querySelector('#plus').addEventListener('click', function(e) {
-    let operator = '+'
-    let num1 = parseInt(display.textContent)
-    console.log(operator)
-    console.log(num1)
+/*Operator buttons change the operatror when num2 is at default value 
+but also acts as an equal button if num1 & num2 are both plugged in*/
+let plus = document.querySelector('#plus')
+
+plus.addEventListener('click', () => {
+    if (typeof num2 == 'string') {
+        operate(operator, num1, num2)
+        display.textContent = product
+        console.log('num1: ' + num1)
+        console.log('operator:' + operator)
+        console.log('num2: ' + num2)
+        console.log('product: ' + product)
+        num1 = product
+        num2 = 0
+    }
+    operator = '+'
 })
 
 let minus = document.querySelector('#minus')
 
-minus.addEventListener('click', function(e) {
-    return '-'
+minus.addEventListener('click', () => {
+    if (typeof num2 == 'string') {
+        operate(operator, num1, num2)
+        display.textContent = product
+        console.log('num1: ' + num1)
+        console.log('operator:' + operator)
+        console.log('num2: ' + num2)
+        console.log('product: ' + product)
+        num1 = product
+        num2 = 0
+    }
+    operator = '-'
 })
 
 let times = document.querySelector('#times')
 
-times.addEventListener('click', function(e) {
-    return '*'
+times.addEventListener('click', () => {
+    if (typeof num2 == 'string') {
+        operate(operator, num1, num2)
+        display.textContent = product
+        console.log('num1: ' + num1)
+        console.log('operator:' + operator)
+        console.log('num2: ' + num2)
+        console.log('product: ' + product)
+        num1 = product
+        num2 = 0
+    }
+    operator = '*'
 })
 
 let division = document.querySelector('#division')
 
-division.addEventListener('click', function(e) {
-    return '/'
+division.addEventListener('click', () => {
+    if (typeof num2 == 'string') {
+        operate(operator, num1, num2)
+        display.textContent = product
+        console.log('num1: ' + num1)
+        console.log('operator:' + operator)
+        console.log('num2: ' + num2)
+        console.log('product: ' + product)
+        num1 = product
+        num2 = 0
+    }
+    operator = '/'
 })
 
-let equals = document.querySelector('#equals').onclick
+/*Equal button calls operate function, brings product to display, 
+and changes num1's value to the that of the product 
+and num2's to 0 when clicked*/
+let equals = document.querySelector('#equals')
 
-let operators = document.querySelector('.operators')
+equals.addEventListener('click', () => {
+    operate(operator, num1, num2)
+    display.textContent = product
+    console.log('num1: ' + num1)
+    console.log('operator:' + operator)
+    console.log('num2: ' + num2)
+    console.log('product: ' + product)
+    num1 = product
+    num2 = 0
+})
+//
 
-operators.onclick = () => console.log('True')
+let decimal = document.querySelector('#decimal')
+
+decimal.addEventListener('click', () => {
+        if (operator === undefined && num1.toString().includes('.') === false) {
+            num1 += '.'
+            display.textContent = num1.slice(1)
+        }
+        if (typeof operator == 'string' && num2.toString().includes('.') === false) {
+            num2 += '.'
+            display.textContent = num2.slice(1)
+        }
+})
+
+let deleteButton = document.querySelector('#delete')
+
+deleteButton.addEventListener('click', () => {
+    //condition finds if num1 is currently active
+   if (operator == undefined) {
+    display.textContent = display.textContent.slice(0, -1)
+    num1 = num1.slice(0, -1)
+   } 
+   //condition finds if num2 is currently active
+   else if (typeof operator == 'string' && typeof num2 == 'string') {
+    display.textContent = display.textContent.slice(0, -1)
+    num2 = num2.slice(0, -1)
+   }
+
+})
