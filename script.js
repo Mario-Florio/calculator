@@ -9,34 +9,48 @@ function add(num1, num2) {
     product = parseFloat(num1) + parseFloat(num2)
     if (product.toString().length > 7 === true) {
         console.log('Product to big for screen\nProduct = ' + product)
-        product = 'ERROR'
+        product = 'TOO BIG'
+    }
+    if (product.toString().includes('.') === true) {
+        product = product.toFixed(5)
     }
 }
 
 function subtract(num1, num2) {
     product = num1 - num2
-    if (product.toString().length > 7 === true) {
+    if (product.toString().includes('.') === false && product.toString().length > 7 === true) {
         console.log('Product to big for screen\nProduct = ' + product)
-        product = 'ERROR'
+        product = 'TOO BIG'
+    }
+    if (product.toString().includes('.') === true) {
+        product = product.toFixed(5)
     }
 }
 
 function multiply(num1, num2) {
     product = num1 * num2
-    if (product.toString().length > 7 === true) {
+    if (product.toString().includes('.') === false && product.toString().length > 7 === true) {
         console.log('Product to big for screen\nProduct = ' + product)
-        product = 'ERROR'
+        product = 'TOO BIG'
+    }
+    if (product.toString().includes('.') === true) {
+        product = product.toFixed(5)
     }
 }
 
 function divide(num1, num2)  {
         product = num1 / num2
     if (num2 === 0) {
-        product = "ERROR"
-    } else if (product.toString().length > 7 === true) {
-        console.log('Product to big for screen\nProduct = ' + product)
         product = 'ERROR'
     }
+    if (product.toString().includes('.') === true) {
+        product = product.toFixed(5)
+    }
+    if (product.toString().length > 7 === true) {
+        console.log('Product to big for screen\nProduct = ' + product)
+        product = 'TOO BIG'
+    }
+    
 }
 
 //Calls the proper function based on the operator used
@@ -59,20 +73,19 @@ function operate(operator, num1, num2) {
 
 let display = document.querySelector('#display')
 
-//Numbers display on screen when clicked and effect the value of num1 & num2 depending on context
+//Numbers display on screen when clicked 
+//and effect the value of num1 & num2 depending on context
 let numbers = document.querySelectorAll('.numbers')
 
 for (let i = 0; i < numbers.length; i++) {
     numbers[i].addEventListener('click', () => {
-        if (operator == undefined && num1.toString().length < 6) {
+        if (operator == undefined && num1.toString().length < 7) {
             num1 += numbers[i].textContent
             display.textContent = num1.slice(1)
-            console.log('num1: ' + num1)
         }
-        if (typeof operator == 'string' && num2.toString().length < 6) {
+        if (typeof operator == 'string' && num2.toString().length < 7) {
             num2 += numbers[i].textContent
             display.textContent = num2.slice(1)
-            console.log('num2: ' + num2)
         }
     })
 }
@@ -81,9 +94,9 @@ for (let i = 0; i < numbers.length; i++) {
 let zero = document.querySelector('#zero')
 
 zero.addEventListener('click', (e) => {
-    if (operator === undefined && num1 == 0) {
-        display.textContent = 0
-    }
+    /*if (operator === undefined && num1 == 0) {
+        //display.textContent = 0
+    } may be able to remove from code*/
     
     if (operator === undefined && num1.toString().length < 6) {
         num1 += 0
@@ -95,9 +108,9 @@ zero.addEventListener('click', (e) => {
             }
     } 
     
-    if (typeof operator == 'string' && num2 == 0) {
+    /*if (typeof operator == 'string' && num2 == 0) {
         display.textContent = 0
-    } 
+    } may be able to remove from code*/
 
     if (typeof operator == 'string' && num2.toString().length < 6) {
         num2 += 0
@@ -120,7 +133,7 @@ clear.addEventListener('click', () => {
     product = 0
 })
 
-/*Operator buttons change the operatror when num2 is at default value 
+/*Operator buttons change the operator when num2 is at default value 
 but also acts as an equal button if num1 & num2 are both plugged in*/
 let plus = document.querySelector('#plus')
 
@@ -186,9 +199,9 @@ division.addEventListener('click', () => {
     operator = '/'
 })
 
-/*Equal button calls operate function, brings product to display, 
+/*Equal button calls 'operate()' function, brings 'product' to display, 
 and changes num1's value to the that of the product 
-and num2's to 0 when clicked*/
+and num2's value to 0 when clicked*/
 let equals = document.querySelector('#equals')
 
 equals.addEventListener('click', () => {
@@ -229,5 +242,5 @@ deleteButton.addEventListener('click', () => {
     display.textContent = display.textContent.slice(0, -1)
     num2 = num2.slice(0, -1)
    }
-
 })
+

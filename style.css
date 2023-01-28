@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    zoom: 200%;
+    zoom: 250%;
 }
 
 h1 {
